@@ -52,26 +52,73 @@ return {
   },
   {
     'nvimdev/dashboard-nvim',
+    dependencies = {
+      'folke/persistence.nvim',
+      event = 'BufReadPre',
+      opts = { options = vim.opt.sessionoptions:get() },
+      keys = {
+        {
+          '<leader>qs',
+          function() require('persistence').load {} end,
+          desc = 'Restore session',
+        },
+        {
+          '<leader>ql',
+          function() require('persistence').load { last = true } end,
+          desc = 'Restore last session',
+        },
+        {
+          '<leader>qd',
+          function() require('persistence').stop {} end,
+          desc = "Don't save current session",
+        },
+      },
+    },
     event = 'VimEnter',
     opts = {
-      theme = 'hyper',
       config = {
         shortcut = {
           {
-            desc = '󰊳 Update',
+            desc = '󰒲 Update',
             group = '@property',
             action = 'Lazy update',
             key = 'u',
           },
           {
-            icon = ' ',
+            icon = ' ',
+            icon_hl = '@variable',
+            desc = 'Session restore',
+            group = 'Label',
+            action = 'lua require("persistence").load()',
+            key = 's',
+          },
+          {
+            icon = ' ',
             icon_hl = '@variable',
             desc = 'Files',
             group = 'Label',
             action = 'Telescope find_files',
             key = 'f',
           },
+          {
+            icon = ' ',
+            icon_hl = '@variable',
+            desc = 'Recent',
+            group = 'Label',
+            action = 'Telescope oldfiles',
+            key = 'r',
+          },
+          {
+            icon = ' ',
+            icon_hl = '@variable',
+            desc = 'Quit',
+            group = 'Label',
+            action = 'qa',
+            key = 'q',
+          },
         },
+        packages = { enabled = false },
+        footer = {},
       },
     },
   },
