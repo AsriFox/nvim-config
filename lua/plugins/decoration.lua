@@ -12,7 +12,19 @@ return {
         dap_ui = true,
         dashboard = true,
         gitsigns = true,
-        mason = true,
+        illuminate = {
+          enabled = true,
+          lsp = false,
+        },
+        indent_blankline = {
+          enabled = true,
+          scope_color = '',
+          colored_indent_levels = false,
+        },
+        mini = {
+          enabled = true,
+          indentscope_color = '',
+        },
         treesitter = true,
         telescope = { enabled = true },
         which_key = true,
