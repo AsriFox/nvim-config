@@ -2,9 +2,7 @@ local on_attach = function(client, bufnr)
   require('nvim-navic').attach(client, bufnr)
 
   local nmap = function(keys, func, desc)
-    if desc then
-      desc = 'LSP: ' .. desc
-    end
+    if desc then desc = 'LSP: ' .. desc end
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
@@ -20,8 +18,17 @@ local on_attach = function(client, bufnr)
   nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature documentation')
   nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace: [A]dd directory')
   nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace: [R]emove directory')
-  nmap('<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, '[W]orkspace: [L]ist directories')
-  vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_) vim.lsp.buf.format() end, { desc = 'Format current buffer with LSP' })
+  nmap(
+    '<leader>wl',
+    function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
+    '[W]orkspace: [L]ist directories'
+  )
+  vim.api.nvim_buf_create_user_command(
+    bufnr,
+    'Format',
+    function(_) vim.lsp.buf.format() end,
+    { desc = 'Format current buffer with LSP' }
+  )
 end
 
 return {

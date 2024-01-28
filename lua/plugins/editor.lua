@@ -47,7 +47,7 @@ return {
     },
     event = LazyFile,
     opts = function()
-      local ai = require('mini.ai')
+      local ai = require 'mini.ai'
       return {
         n_lines = 500,
         custom_textobjects = {
@@ -94,7 +94,7 @@ return {
 
       local ic = vim.deepcopy(i)
       local ac = vim.deepcopy(a)
-      for key, name in pairs({ n = 'Next', l = 'Last' }) do
+      for key, name in pairs { n = 'Next', l = 'Last' } do
         i[key] = vim.tbl_extend('force', { name = 'Inside ' .. name .. ' textobject' }, ic)
         a[key] = vim.tbl_extend('force', { name = 'Around ' .. name .. ' textobject' }, ac)
       end

@@ -43,35 +43,29 @@ local statusline = function()
         t = 'T',
       },
       mode_colors = {
-        n = 'lavender' ,
+        n = 'lavender',
         i = 'green',
         v = 'flamingo',
-        V =  'flamingo',
-        ['\22'] =  'maroon',
-        c =  'peach',
-        s =  'maroon',
-        S =  'maroon',
-        ['\19'] =  'maroon',
-        R =  'teal',
-        r =  'teal',
-        ['!'] =  'green',
-        t =  'green',
+        V = 'flamingo',
+        ['\22'] = 'maroon',
+        c = 'peach',
+        s = 'maroon',
+        S = 'maroon',
+        ['\19'] = 'maroon',
+        R = 'teal',
+        r = 'teal',
+        ['!'] = 'green',
+        t = 'green',
       },
     },
-    init = function(self)
-      self.mode = vim.fn.mode(1)
-    end,
+    init = function(self) self.mode = vim.fn.mode(1) end,
     update = {
       'ModeChanged',
       pattern = '*:*',
-      callback = vim.schedule_wrap(function()
-        vim.cmd('redrawstatus')
-      end),
+      callback = vim.schedule_wrap(function() vim.cmd 'redrawstatus' end),
     },
     {
-      provider = function(self)
-        return '%2(' .. self.mode_names[self.mode] .. '%)'
-      end,
+      provider = function(self) return '%2(' .. self.mode_names[self.mode] .. '%)' end,
       hl = function(self)
         local mode = self.mode:sub(1, 1)
         return {
@@ -111,10 +105,10 @@ local statusline = function()
   local diagnostics = {
     condition = conditions.has_diagnostics,
     static = {
-      error_icon = "",
-      warn_icon = "",
-      info_icon = "",
-      hint_icon = "",
+      error_icon = '',
+      warn_icon = '',
+      info_icon = '',
+      hint_icon = '',
     },
     init = function(self)
       self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
@@ -124,27 +118,19 @@ local statusline = function()
     end,
     update = { 'DiagnosticChanged', 'BufEnter' },
     {
-      provider = function(self)
-        return self.errors > 0 and (self.error_icon .. ' ' .. self.errors .. ' ')
-      end,
+      provider = function(self) return self.errors > 0 and (self.error_icon .. ' ' .. self.errors .. ' ') end,
       hl = { fg = 'red' },
     },
     {
-      provider = function(self)
-        return self.warnings > 0 and (self.warn_icon .. ' ' .. self.warnings .. ' ')
-      end,
+      provider = function(self) return self.warnings > 0 and (self.warn_icon .. ' ' .. self.warnings .. ' ') end,
       hl = { fg = 'yellow' },
     },
     {
-      provider = function(self)
-        return self.info > 0 and (self.info_icon .. ' ' .. self.info .. ' ')
-      end,
+      provider = function(self) return self.info > 0 and (self.info_icon .. ' ' .. self.info .. ' ') end,
       hl = { fg = 'sky' },
     },
     {
-      provider = function(self)
-        return self.hints > 0 and (self.hint_icon .. ' ' .. self.hints .. ' ')
-      end,
+      provider = function(self) return self.hints > 0 and (self.hint_icon .. ' ' .. self.hints .. ' ') end,
       hl = { fg = 'rosewater' },
     },
   }
@@ -153,15 +139,11 @@ local statusline = function()
     condition = conditions.is_git_repo,
     init = function(self)
       self.status_dict = vim.b.gitsigns_status_dict
-      self.has_changes = (self.status_dict.added ~= 0
-                          or self.status_dict.removed ~= 0
-                          or self.status_dict.changed ~= 0)
+      self.has_changes = (self.status_dict.added ~= 0 or self.status_dict.removed ~= 0 or self.status_dict.changed ~= 0)
     end,
     hl = { fg = 'mauve' },
     {
-      provider = function(self)
-        return ' ' .. self.status_dict.head
-      end,
+      provider = function(self) return ' ' .. self.status_dict.head end,
       hl = { bold = true },
     },
     {
@@ -201,9 +183,7 @@ local statusline = function()
       self.icon = ' '
       local cwd = vim.fn.getcwd(0)
       self.cwd = vim.fn.fnamemodify(cwd, ':~')
-      if not conditions.width_percent_below(#cwd, 0.25) then
-        cwd = vim.fn.pathshorten(cwd)
-      end
+      if not conditions.width_percent_below(#cwd, 0.25) then cwd = vim.fn.pathshorten(cwd) end
     end,
     hl = {
       bg = 'flamingo',
@@ -249,42 +229,40 @@ local winbar = function()
   local crumbs = {
     static = {
       type_hl = {
-        File = "Directory",
-        Module = "@include",
-        Namespace = "@namespace",
-        Package = "@include",
-        Class = "@structure",
-        Method = "@method",
-        Property = "@property",
-        Field = "@field",
-        Constructor = "@constructor",
-        Enum = "@field",
-        Interface = "@type",
-        Function = "@function",
-        Variable = "@variable",
-        Constant = "@constant",
-        String = "@string",
-        Number = "@number",
-        Boolean = "@boolean",
-        Array = "@field",
-        Object = "@type",
-        Key = "@keyword",
-        Null = "@comment",
-        EnumMember = "@field",
-        Struct = "@structure",
-        Event = "@keyword",
-        Operator = "@operator",
-        TypeParameter = "@type",
+        File = 'Directory',
+        Module = '@include',
+        Namespace = '@namespace',
+        Package = '@include',
+        Class = '@structure',
+        Method = '@method',
+        Property = '@property',
+        Field = '@field',
+        Constructor = '@constructor',
+        Enum = '@field',
+        Interface = '@type',
+        Function = '@function',
+        Variable = '@variable',
+        Constant = '@constant',
+        String = '@string',
+        Number = '@number',
+        Boolean = '@boolean',
+        Array = '@field',
+        Object = '@type',
+        Key = '@keyword',
+        Null = '@comment',
+        EnumMember = '@field',
+        Struct = '@structure',
+        Event = '@keyword',
+        Operator = '@operator',
+        TypeParameter = '@type',
       },
-      enc = function(line, col, winnr)
-        return bit.bor(bit.lshift(line, 16), bit.lshift(col, 6), winnr)
-      end,
+      enc = function(line, col, winnr) return bit.bor(bit.lshift(line, 16), bit.lshift(col, 6), winnr) end,
       dec = function(c)
         local line = bit.rshift(c, 16)
         local col = bit.band(bit.rshift(c, 6), 1023)
-        local winnr = bit.band(c,  63)
+        local winnr = bit.band(c, 63)
         return line, col, winnr
-      end
+      end,
     },
     init = function(self)
       local data = navic.get_data() or {}
@@ -300,7 +278,7 @@ local winbar = function()
           },
           {
             -- escape `%`s (elixir) and buggy default separators
-            provider = d.name:gsub("%%", "%%%%"):gsub("%s*->%s*", ''),
+            provider = d.name:gsub('%%', '%%%%'):gsub('%s*->%s*', ''),
             -- highlight icon only or location name as well
             -- hl = self.type_hl[d.type],
 
@@ -309,16 +287,16 @@ local winbar = function()
               minwid = pos,
               callback = function(_, minwid)
                 local line, col, winnr = self.dec(minwid)
-                vim.api.nvim_win_set_cursor(vim.fn.win_getid(winnr), {line, col})
+                vim.api.nvim_win_set_cursor(vim.fn.win_getid(winnr), { line, col })
               end,
-              name = "heirline_navic",
+              name = 'heirline_navic',
             },
           },
         }
         -- add a separator only if needed
         if #data > 1 and i < #data then
           table.insert(child, {
-            provider = " > ",
+            provider = ' > ',
             hl = { fg = 'text' },
           })
         end
@@ -328,9 +306,7 @@ local winbar = function()
       self.child = self:new(children, 1)
     end,
     -- evaluate the children containing navic components
-    provider = function(self)
-        return self.child:eval()
-    end,
+    provider = function(self) return self.child:eval() end,
     hl = { bg = 'surface1' },
     update = 'CursorMoved',
   }
@@ -338,9 +314,7 @@ local winbar = function()
   return {
     fallthrough = false,
     {
-      condition = function()
-        return navic.is_available()
-      end,
+      condition = function() return navic.is_available() end,
       crumbs,
       {
         provider = '%=',
@@ -359,12 +333,8 @@ local tabline = function()
       local extension = vim.fn.fnamemodify(filename, ':e')
       self.icon, self.icon_color = require('nvim-web-devicons').get_icon_color(filename, extension, { default = true })
     end,
-    provider = function(self)
-      return self.icon and (self.icon .. ' ')
-    end,
-    hl = function(self)
-      return { fg = self.icon_color }
-    end,
+    provider = function(self) return self.icon and (self.icon .. ' ') end,
+    hl = function(self) return { fg = self.icon_color } end,
   }
 
   local file_name = {
@@ -373,23 +343,19 @@ local tabline = function()
       filename = filename == '' and '[無名]' or vim.fn.fnamemodify(filename, ':t')
       return filename
     end,
-    hl = function(self)
-      return { bold = self.is_active or self.is_visible }
-    end,
+    hl = function(self) return { bold = self.is_active or self.is_visible } end,
   }
 
   local file_flags = {
     {
-      condition = function(self)
-        return vim.api.nvim_buf_get_option(self.bufnr, 'modified')
-      end,
+      condition = function(self) return vim.api.nvim_buf_get_option(self.bufnr, 'modified') end,
       provider = '[+]',
       hl = { fg = 'green' },
     },
     {
       condition = function(self)
         return not vim.api.nvim_buf_get_option(self.bufnr, 'modifiable')
-                or vim.api.nvim_buf_get_option(self.bufnr, 'readonly')
+          or vim.api.nvim_buf_get_option(self.bufnr, 'readonly')
       end,
       provider = function(self)
         if vim.api.nvim_buf_get_option(self.bufnr, 'buftype') == 'terminal' then
@@ -403,9 +369,7 @@ local tabline = function()
   }
 
   local file_name_block = {
-    init = function(self)
-      self.filename = vim.api.nvim_buf_get_name(self.bufnr)
-    end,
+    init = function(self) self.filename = vim.api.nvim_buf_get_name(self.bufnr) end,
     hl = function(self)
       if self.is_active then
         return 'TabLineSel'
@@ -416,16 +380,12 @@ local tabline = function()
     on_click = {
       callback = function(_, minwid, _, button)
         if button == 'm' then
-          vim.schedule(function()
-            vim.api.nvim_buf_delete(minwid, { force = false })
-          end)
+          vim.schedule(function() vim.api.nvim_buf_delete(minwid, { force = false }) end)
         else
           vim.api.nvim_win_set_buf(0, minwid)
         end
       end,
-      minwid = function(self)
-        return self.bufnr
-      end,
+      minwid = function(self) return self.bufnr end,
       name = 'heirline_tabline_buffer_callback',
     },
     file_icon,
@@ -434,9 +394,7 @@ local tabline = function()
   }
 
   local close_button = {
-    condition = function(self)
-      return not vim.api.nvim_buf_get_option(self.bufnr, 'modified')
-    end,
+    condition = function(self) return not vim.api.nvim_buf_get_option(self.bufnr, 'modified') end,
     { provider = ' ' },
     {
       provider = 'x',
@@ -448,30 +406,24 @@ local tabline = function()
             vim.cmd.redrawtabline()
           end)
         end,
-        minwid = function(self)
-          return self.bufnr
-        end,
-        name = 'heirline_tabline_close_buffer_callback'
+        minwid = function(self) return self.bufnr end,
+        name = 'heirline_tabline_close_buffer_callback',
       },
     },
   }
 
-  local tab_block = utils.surround(
-    { '', '' },
-    function(self)
-      if self.is_active then
-          return utils.get_highlight("TabLineSel").bg
-      else
-          return utils.get_highlight("TabLine").bg
-      end
-    end,
-    { file_name_block, close_button }
-  )
+  local tab_block = utils.surround({ '', '' }, function(self)
+    if self.is_active then
+      return utils.get_highlight('TabLineSel').bg
+    else
+      return utils.get_highlight('TabLine').bg
+    end
+  end, { file_name_block, close_button })
 
   return utils.make_buflist(
     tab_block,
-    { provider = "", hl = { fg = "gray" } },
-    { provider = "", hl = { fg = "gray" } }
+    { provider = '', hl = { fg = 'gray' } },
+    { provider = '', hl = { fg = 'gray' } }
   )
 end
 
@@ -486,7 +438,7 @@ return {
     },
     event = 'UiEnter',
     opts = function()
-      local palette = require('catppuccin.palettes').get_palette('macchiato')
+      local palette = require('catppuccin.palettes').get_palette 'macchiato'
 
       return {
         statusline = statusline(),
