@@ -1,10 +1,29 @@
+local LazyFile = { 'BufReadPost', 'BufNewFile', 'BufWritePre' }
+
 return {
-  'RRethy/vim-illuminate',
+  {
+    'RRethy/vim-illuminate',
+    event = LazyFile,
+  },
   {
     'lukas-reineke/indent-blankline.nvim',
     main = 'ibl',
+    event = LazyFile,
+    opts = {
+      indent = { char = '▏' },
+      scope = { enabled = false },
+    },
   },
-  'echasnovski/mini.pairs',
+  {
+    'numToStr/Comment.nvim',
+    event = LazyFile,
+    opts = {},
+  },
+  {
+    'echasnovski/mini.pairs',
+    event = 'InsertEnter',
+    opts = {},
+  },
   {
     'echasnovski/mini.surround',
     keys = function(_, keys)
@@ -19,17 +38,14 @@ return {
       }
       return vim.list_extend(mappings, keys)
     end,
-  },
-  {
-    'echasnovski/mini.comment',
-    event = 'VeryLazy',
+    opts = {},
   },
   {
     'echasnovski/mini.ai',
     dependencies = {
       'folke/which-key.nvim',
     },
-    event = 'VeryLazy',
+    event = LazyFile,
     opts = function()
       local ai = require('mini.ai')
       return {
