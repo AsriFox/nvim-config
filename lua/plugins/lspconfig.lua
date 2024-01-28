@@ -1,4 +1,6 @@
 local on_attach = function(client, bufnr)
+  require('nvim-navic').attach(client, bufnr)
+
   local nmap = function(keys, func, desc)
     if desc then
       desc = 'LSP: ' .. desc
