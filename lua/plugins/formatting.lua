@@ -20,6 +20,7 @@ return {
     opts = {
       formatters_by_ft = {
         lua = { 'stylua' },
+        nix = { 'nixfmt' },
         python = { 'autopep8' },
         c = { 'clang_format' },
         cpp = { 'clang_format' },
